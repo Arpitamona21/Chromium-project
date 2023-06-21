@@ -1,0 +1,33 @@
+version: "2.1"
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    labels:
+      openplatform.service.firewall.networks: "pax,crew1"
+      openplatform.service.firewall.ports: "8096"
+      openplatform.service.name: "jellyfin"
+      openplatform.service.dns-name: "jellyfin"
+      openplatform.service.dns.name: "jellyfin"
+      openplatform.service.dns.domain: "service.osp.connectivity.aero"
+      openplatform.service.networks: "vop"
+      openplatform.service.ports: "8096"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    ports:
+      - 8096:8096
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - ./media:/media
+    networks:
+      vop:
+        ipv4_address: 172.24.137.40
+    restart: unless-stopped
+networks:
+  vop:
+    external:
+      name: vop
+
